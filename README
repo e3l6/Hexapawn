@@ -1,0 +1,87 @@
+Eric Laursen, 24 April 2017, CS 442P-003 HW 2
+laursen@pdx.edu
+
+File list:
+
+     board.ads
+     board.adb
+     hw2.adb
+     Makefile
+     README
+     test1-in.txt
+     test1-out.txt
+     test2-in.txt
+     test2-out.txt
+     test3-in.txt
+     test3-out.txt
+
+test2 and test3 are the example/test inputs 5x5-3 and 3x3-6 provided by
+Bart, respectively.
+
+----------
+
+To make:
+
+   Unzip the archive to a directory
+   Execute "make"
+
+Tested on ada.cs.pdx.edu.
+
+Executable is named "hw2".
+
+----------
+
+This solution is a naive depth-first solver based on class notes and
+portions of the mini-chess solver guidance found on the CS wiki at
+wiki.cs.pdx.edu/mc-howto up through the movegen step. The board is
+a two dimensional array of characters, limited to 8x8 as stated in
+the assignment sheet.
+
+Like hw1, the main routine verifies input, builds a properly sized
+board, and sends it to the initial game play procedure in the board
+package. The game play procedure finds the first set of moves then
+sends each of them to a recursive routine to explore the moves tree.
+
+As I don't free the losing boards (or anything, for that matter) it's a
+memory hog. (I actually used all 32 GB of my RAM and the 32 or so GB of
+swap before it was killed off while trying to test a 9x9 board from
+an opening board at move 1...oops)
+
+Had an problem with the first couple of runs, as I'd forgotten to
+invert the returned score at the top of the tree, and initially had
+a 56% or so correctness with the 39 board test set provided.
+
+This was a good exercise in remembering basic exception usage and
+learning to use the containers package in Ada.
+
+Looking forward to the next assignment.
+
+----------
+
+Test script:
+
+#!/bin/bash
+INFILES=test?-in.txt
+
+for i in $INFILES
+do
+    ./hw2 < $i
+done
+
+Output:
+
+eric@Lazarus:~/school/cs442/hw2$ time sh test.sh
+-1
+-1
+1
+
+real	0m2.214s
+user	0m2.144s
+sys	0m0.068s
+eric@Lazarus:~/school/cs442/hw2$ cat test?-out.txt
+-1
+-1
+1
+eric@Lazarus:~/school/cs442/hw2$ 
+
+
